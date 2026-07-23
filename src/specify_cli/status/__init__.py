@@ -185,7 +185,10 @@ from .aggregate import (
     MissionStatus,
 )
 from .lifecycle_events import (
+    FOLLOW_UP_RECORDED,
     LIFECYCLE_EVENT_TYPES,
+    MISSION_CREATED,
+    MISSION_REOPENED,
     PLAN_COMPLETED,
     PLAN_STARTED,
     REVIEWER_SELF_APPROVAL,
@@ -193,6 +196,7 @@ from .lifecycle_events import (
     SPECIFY_STARTED,
     TASKS_COMPLETED,
     TASKS_STARTED,
+    WP_CREATED,
     MissionNotCompletedError,
     build_saas_lifecycle_queue_event,
     emit_artifact_phase,
@@ -203,6 +207,8 @@ from .lifecycle_events import (
     emit_reviewer_self_approval,
     emit_wp_created_local,
     has_non_bootstrap_status_history,
+    mission_event_log_path,
+    read_lifecycle_events,
     repo_root_for_lifecycle_log,
 )
 from .views import (
@@ -232,6 +238,7 @@ def uninitialized_status_error(mission_slug: str, wp_id: str, feature_dir: Path)
     from .uninitialized_hint import uninitialized_status_error as _uninitialized_status_error
 
     return str(_uninitialized_status_error(mission_slug, wp_id, feature_dir))
+
 
 # The canonical status artifacts (event log + snapshot). On coordination-topology
 # missions these are owned by the transactional status emitter on the coordination
@@ -274,6 +281,12 @@ __all__ = [
     "InvalidMissionSlug",
     "MissionMetadataUnavailable",
     "LIFECYCLE_EVENT_TYPES",
+    "FOLLOW_UP_RECORDED",
+    "MISSION_CREATED",
+    "MISSION_REOPENED",
+    "WP_CREATED",
+    "mission_event_log_path",
+    "read_lifecycle_events",
     "MissionStatus",
     "PLAN_COMPLETED",
     "PLAN_STARTED",
